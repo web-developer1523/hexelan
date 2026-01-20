@@ -1,0 +1,157 @@
+<div class="img-section cst-rich-text">
+  {% assign has_image = false %}
+  {% for block in section.blocks %}
+    {% if block.type == 'image' and block.settings.img != blank %}
+      {% assign has_image = true %}
+    {% endif %}
+  {% endfor %}
+
+  {% if has_image %}
+    <div class="heading">{{ section.settings.heading }}</div>
+  {% endif %}
+
+  <div class="img-container">
+    {% for block in section.blocks %}
+      {% if block.type == 'image' and block.settings.img != blank %}
+        {% comment %} <div class="cst-stack-imgs {%  if section.settings.layout %}cst-grid-img{% endif %}"> {% endcomment %}
+         <div class="{% if section.settings.layout %}cst-grid-img{% else %}cst-stack-imgs{% endif %}">
+        <img src="{{ block.settings.img | img_url: 'master' }}" alt="Get highlight">
+        {% if block.settings.img-1 != blank %}
+        <img src="{{ block.settings.img-1 | img_url: 'master' }}" alt="Get highlight">
+        {% endif %}
+        {% if block.settings.img-2 != blank %}
+        <img src="{{ block.settings.img-2 | img_url: 'master' }}" alt="Get highlight">
+        {% endif %}
+        {% if block.settings.img-3 != blank %}
+        <img src="{{ block.settings.img-3 | img_url: 'master' }}" alt="Get highlight">
+        {% endif %}
+        {% if block.settings.img-4 != blank %}
+        <img src="{{ block.settings.img-4 | img_url: 'master' }}" alt="Get highlight">
+        {% endif %}
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+
+
+{% schema %}
+{
+    "name": "Images",
+    "settings":[
+        {
+            "type": "richtext",
+            "id": "heading",
+            "label": "Heading"
+        },
+        {
+            "type": "checkbox",
+            "id": "layout",
+            "label": "Grid",
+            "default":false
+        },
+    ],
+    "blocks": [
+        {
+            "type": "image",
+            "name":"image",
+            "settings": [
+                {
+                    "type": "image_picker",
+                    "id": "img",
+                    "label": "Image 1"
+                },
+                {
+                    "type": "image_picker",
+                    "id": "img-1",
+                    "label": "Image 2"
+                },
+                {
+                    "type": "image_picker",
+                    "id": "img-2",
+                    "label": "Image 3"
+                },
+                {
+                    "type": "image_picker",
+                    "id": "img-3",
+                    "label": "Image 4"
+                },
+                {
+                    "type": "image_picker",
+                    "id": "img-4",
+                    "label": "Image 5"
+                }
+
+            ]
+        }
+    ],
+    "presets": [
+        {
+            "name": "Images"
+        }
+    ]
+}
+{% endschema %}
+<style>
+.cst-grid-img {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+	grid-template-rows: repeat(2, 380px);
+    grid-auto-rows: auto;
+    gap: 16px;
+    max-width: 100%;
+}
+
+.cst-grid-img img:first-child {
+    grid-column: span 2;
+}
+
+.cst-stack-imgs img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+.cst-grid-img .grid-item img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.cst-grid-img .grid-item:nth-child(4),
+.cst-grid-img .grid-item:nth-child(5) {
+  grid-column: span 1;
+}
+
+/* Optional: Make the second row centered if there are only 2 images */
+.cst-grid-img .grid-item:nth-child(4) {
+  grid-column-start: 2;
+}
+
+
+.heading p strong {
+    color: #1c3b5a;
+}
+
+.heading p {
+    font-size: 36px !important;
+    font-weight: 700;
+    padding: 40px 0 20px 0;
+}
+
+.cst-stack-imgs {
+    padding-top: 30px;
+}
+.cst-stack-imgs img {
+    padding-top: 8px;
+}
+
+@media screen and (max-width:767px){
+.cst-grid-img {
+    grid-template-rows: repeat(2, 170px);
+}
+}
+  </style>

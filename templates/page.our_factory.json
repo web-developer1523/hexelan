@@ -1,0 +1,208 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "brand_collection_banner_c4pTP3": {
+      "type": "brand-collection-banner",
+      "name": "Brand Banner",
+      "settings": {
+        "banner_image": "shopify://shop_images/Case-Samsung-S23-Ultra-hexelan.com.jpg",
+        "banner_title": "Our Factory"
+      }
+    },
+    "rich_text_tnYmVz": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_DrDPBP": {
+          "type": "heading",
+          "settings": {
+            "heading": "Our Story",
+            "heading_size": 30,
+            "heading_size_mb": 30,
+            "heading_line_height": 1.3,
+            "heading_color": "#000000"
+          }
+        },
+        "content_96DkHx": {
+          "type": "content",
+          "settings": {
+            "content_top": "Tek Avasya Private Limited was founded on a clear belief. High quality products can be designed, engineered, and manufactured in India without relying on inflated retail markups or low-grade imports. We set out to prove that Indian manufacturing can meet world-class standards while staying honest, transparent, and close to the customer.<br> <br>\nThe current phone case market leaves the customer with two unsatisfying extremes. Premium retail stores often price cases at ₹2000 or more, where the customer ends up paying mainly for branding and presentation rather than true material quality or durability.\n<br><br>\nOn the other side, many ordinary market stores sell cases in the ₹600–₹700 range that are actually sourced from abroad for roughly ₹150–₹250, and after adding shipping and customs, they still end up being low-grade products made with cheaper raw materials and poor finishing. The result is less choice and less satisfaction for customers who care about quality, feel, and longevity.",
+            "content_bottom": "",
+            "alignment_content": "left",
+            "content_size": 16,
+            "margin_top_content": 20,
+            "content_color": "#000000",
+            "content_width": "800px",
+            "button_text_more": "",
+            "button_text_less": "Read Less",
+            "button_text_font_size": 14,
+            "button_text_font_weight": "500",
+            "margin_top_button_text": 30,
+            "button_text_color": "#ffffff",
+            "button_text_border_color": "#000000",
+            "button_text_bg_color": "#000000",
+            "button_text_bg_color_gradient": "",
+            "button_text_color_hover": "#000000",
+            "button_text_border_color_hover": "#000000",
+            "button_text_bg_color_hover": "#ffffff",
+            "button_text_bg_color_hover_gradient": "",
+            "button_text_more_width": 270,
+            "pd_top_button_text": 12,
+            "pd_bottom_button_text": 12
+          }
+        }
+      },
+      "block_order": [
+        "heading_DrDPBP",
+        "content_96DkHx"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "custom-class": "cst-our-factory",
+        "container": "container",
+        "padding_full_width": 0,
+        "enable_border_top": false,
+        "enable_border_bottom": false,
+        "color_border_bottom": "#e8e8e8",
+        "enable_minus_mg_top": false,
+        "minus_spacing_top": -100,
+        "rich_text_bg": "#ffffff",
+        "rich_text_bg_gradient": "",
+        "enable_column": false,
+        "content_align": "center",
+        "mg_top_desktop": 50,
+        "mg_top_tablet": 50,
+        "mg_top_mobile": 50,
+        "mg_bottom_desktop": 50,
+        "mg_bottom_tablet": 50,
+        "mg_bottom_mobile": 50
+      }
+    },
+    "custom_press_banner_3FAX6d": {
+      "type": "custom-press-banner",
+      "disabled": true,
+      "name": "t:sections.custom_press_banner.presets.name",
+      "settings": {
+        "container": "container",
+        "padding_full_width": 0,
+        "press_bg": "#fafafa",
+        "press_gradient": "",
+        "align_items": "center",
+        "press_image": "shopify://shop_images/Case-image-iPhone-17-hexelan.com.jpg",
+        "press_image_width": 580,
+        "press_image_width_ratio": 55,
+        "sub_title": "",
+        "letter_spacing_sub_title": "",
+        "font_size_sub_title": 14,
+        "font_size_sub_title_mb": 14,
+        "margin_bottom_sub_title": 14,
+        "font_weight_sub_title": "700",
+        "sub_title_position": "sub_title_above",
+        "color_sub_title": "#232323",
+        "title": "We chose a better path.",
+        "title_font_size": 80,
+        "title_font_size_mb": 20,
+        "title_font_weight": "700",
+        "mg_bottom_title": 15,
+        "title_color": "#000000",
+        "des": "Every Hexelan phone case is created in our own facility in India, using premium German non-yellowing raw material for clarity that lasts and strength that holds up over time. We invest in precise molding, clean finishing, reliable fit, and thoughtful aesthetic choices. Our designs reflect Indian tastes in style and comfort, so the product feels natural in daily use rather than generic",
+        "des_font_size": 12,
+        "des_font_size_mb": 12,
+        "des_font_weight": "400",
+        "mg_bottom_des": 15,
+        "des_color": "#000000",
+        "item_spacing": 120,
+        "content_max_width": 260,
+        "button_text": "",
+        "button_link": "",
+        "fontsize_btn": 16,
+        "button_width": 190,
+        "color_button": "#ffffff",
+        "border_color_button": "#232323",
+        "bg_color_button": "#232323",
+        "bg_gradient_color_button": "",
+        "color_button_hover": "#ffffff",
+        "border_color_button_hover": "#232323",
+        "bg_color_button_hover": "#232323",
+        "bg_gradient_color_button_hover": "",
+        "btn_text_transform": "uppercase",
+        "image_behavior": "none",
+        "mg_top_desktop": 50,
+        "mg_top_tablet": 50,
+        "mg_top_mobile": 50,
+        "mg_bottom_desktop": 50,
+        "mg_bottom_tablet": 50,
+        "mg_bottom_mobile": 50
+      }
+    },
+    "image_with_text_hwwrDC": {
+      "type": "image-with-text",
+      "name": "Custom Image + Text Section",
+      "settings": {
+        "custom_class": "cst-img-text-1",
+        "image": "shopify://shop_images/Case-Image-Samsung-S23-hexelan.com_ea771f1a-4540-4170-bbf8-4002556eaa77.jpg",
+        "image_position": "left",
+        "heading": "We chose a better path.",
+        "description": "<p>Every Hexelan phone case is created in our own facility in India, using <strong>premium German non-yellowing raw material</strong> for clarity that lasts and strength that holds up over time. We invest in precise molding, clean finishing, reliable fit, and thoughtful aesthetic choices. Our designs reflect Indian tastes in style and comfort, so the product feels natural in daily use rather than generic.</p>",
+        "button_label": "",
+        "button_link": "",
+        "button_color": "#232323",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "image_with_text_7jx94T": {
+      "type": "image-with-text",
+      "name": "Custom Image + Text Section",
+      "settings": {
+        "custom_class": "cst-img-text-2",
+        "image": "shopify://shop_images/Case-image-iPhone-17-ProMax-hexelan.com.jpg",
+        "image_position": "right",
+        "heading": "Direct to You",
+        "description": "<p>Hexelan is a direct-to-customer brand. Our products move straight from our production line to your hands. No distributors. No retail commissions. This keeps pricing fair and allows us to maintain strict quality control.</p><p>Being direct also helps us stay close to the real user. Customer feedback drives improvements and new designs. We build based on real usage, not assumptions.</p>",
+        "button_label": "",
+        "button_link": "",
+        "button_color": "#232323",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "image_with_text_KbUcmP": {
+      "type": "image-with-text",
+      "name": "Custom Image + Text Section",
+      "settings": {
+        "custom_class": "cst-img-text-3",
+        "image": "shopify://shop_images/Case-image-Samsung-S25-Plus-hexelan.jpg",
+        "image_position": "left",
+        "heading": "Made in India with Pride",
+        "description": "<p>Made in India is our identity. It represents accountability, craftsmanship, and progress. It also means every product sold contributes to local employment, skill development, and manufacturing growth. The work we do creates jobs in India and supports Indian capability.</p><p>Our goal is simple: deliver real value. Quality you can feel. Durability you can trust. Pricing that makes sense. Products that respect the customer.</p><p>We are building for the long term. The journey has just<br/>begun, and we are moving forward with purpose.</p>",
+        "button_label": "",
+        "button_link": "",
+        "button_color": "#232323",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    }
+  },
+  "order": [
+    "main",
+    "brand_collection_banner_c4pTP3",
+    "rich_text_tnYmVz",
+    "custom_press_banner_3FAX6d",
+    "image_with_text_hwwrDC",
+    "image_with_text_7jx94T",
+    "image_with_text_KbUcmP"
+  ]
+}

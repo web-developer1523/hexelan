@@ -1,0 +1,43 @@
+{% render 'mega-menu' %}
+
+{% schema %}
+{
+  "name": "Mega Menu",
+  "class": "mega-menu-custom",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Brand Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text"
+        },
+        {
+          "type": "select",
+          "id": "brand",
+          "label": "Select Brand",
+          "options": [
+            { "value": "apple", "label": "Apple" },
+            { "value": "samsung", "label": "Samsung" },
+            { "value": "google", "label": "Google" },
+            { "value": "cases", "label": "Cases" }
+          ]
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Mega Menu"
+    }
+  ]
+}
+{% endschema %}

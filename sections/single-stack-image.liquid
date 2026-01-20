@@ -1,0 +1,59 @@
+<div class="cst-img-area cst-rich-text">
+
+  {% if section.settings.heading != blank %}
+    <div class="heading">{{ section.settings.heading }}</div>
+  {% endif %}
+
+  <div class="measurement-image-section">
+    {% if section.settings.image != blank %}
+      <div class="measurement-wrapper">
+        <img 
+          src="{{ section.settings.image | img_url: 'master' }}" 
+          alt="{{ section.settings.alt_text }}"
+          class="measurement-img"
+        >
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<style>
+.measurement-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.measurement-img {
+  width: 100%;
+  max-width: 100%; /* adjust as needed */
+  display: block;
+}
+</style>
+{% schema %}
+{
+  "name": "Measurement Image",
+  "settings": [
+    {
+            "type": "richtext",
+            "id": "heading",
+            "label": "Heading"
+        },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Upload Measurement Image"
+    },
+    {
+      "type": "text",
+      "id": "alt_text",
+      "label": "Image Alt Text"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Measurement Image"
+    }
+  ]
+}
+{% endschema %}

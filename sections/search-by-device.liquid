@@ -1,0 +1,225 @@
+<section class="search-by-device-section">
+  <div class="search-device-wrapper">
+    <h2 class="search-title">SEARCH BY DEVICE</h2>
+
+    <form id="deviceSearchForm" class="device-search-form">
+      <select id="brandSelect" required>
+        <option value="">Select Brand</option>
+        {% for block in section.blocks %}
+          <option value="{{ block.settings.brand_handle | escape }}">{{ block.settings.brand_name }}</option>
+        {% endfor %}
+      </select>
+
+      <select id="modelSelect" required disabled>
+        <option value="">Select Model</option>
+      </select>
+
+      <button type="submit" class="search-button">Search</button>
+    </form>
+  </div>
+
+  <style>
+    .search-by-device-section {
+      padding: 40px 0;
+    }
+
+    .search-device-wrapper {
+      background: #000 url('{{ section.settings.background_image | image_url: width: 1200 }}') no-repeat center;
+      background-size: cover;
+      border-radius: 50px;
+      padding: 30px 40px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      color: white;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    .search-title {
+      font-weight: 700;
+      color: #F7D3AA;
+      text-transform: uppercase;
+      margin: 0 20px 0 0;
+      letter-spacing: 1px;
+    }
+
+    .device-search-form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .device-search-form select {
+      border: none;
+      border-radius: 50px;
+      padding: 12px 20px;
+      font-size: 16px;
+      min-width: 250px;
+      outline: none;
+      appearance: none;
+      background: #fff url("data:image/svg+xml;utf8,<svg fill='black' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>") no-repeat right 15px center;
+      background-size: 18px;
+    }
+
+    .device-search-form select:disabled {
+      opacity: 0.6;
+    }
+    select#brandSelect {
+           background: #939393;
+      color:  #F7D3AA;
+      }
+
+      select#modelSelect {
+          background: #939393;
+      color:  #F7D3AA;
+        }
+
+    .search-button {
+      background: #939393;
+      color:  #F7D3AA;
+      border-radius: 50px;
+      padding: 12px 30px;
+      font-weight: 600;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .search-button:hover {
+      background: #f5f5f5;
+    }
+
+    @media (max-width: 768px) {
+      .search-device-wrapper {
+        flex-direction: column;
+        border-radius: 30px;
+      }
+      .search-title {
+        margin-bottom: 10px;
+      }
+      .device-search-form select {
+        min-width: 200px;
+      }
+    }
+  </style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const brandSelect = document.getElementById('brandSelect');
+    const modelSelect = document.getElementById('modelSelect');
+    const form = document.getElementById('deviceSearchForm');
+
+    // Get models data from Liquid
+    const modelsData = {{ section.blocks | map: 'settings' | json }};
+
+    function redirectToSearch(brand, model) {
+  if (!brand || !model) return;
+  {% if section.settings.redirect_type == 'collection' %}
+    window.location.href = `/collections/${brand}-${model}`;
+  {% else %}
+    window.location.href = `/collections/${model}`;
+  {% endif %}
+}
+
+    brandSelect.addEventListener('change', function() {
+      const selectedBrand = this.value;
+      modelSelect.innerHTML = '<option value="">Select Model</option>';
+      modelSelect.disabled = true;
+
+      const brandBlock = modelsData.find(b => b.brand_handle === selectedBrand);
+      if (brandBlock && brandBlock.phone_models) {
+        const phoneModels = brandBlock.phone_models.split(',');
+        phoneModels.forEach(model => {
+          const trimmed = model.trim();
+          const opt = document.createElement('option');
+          opt.value = trimmed.toLowerCase().replace(/\s+/g, '-');
+          opt.textContent = trimmed;
+          modelSelect.appendChild(opt);
+        });
+        modelSelect.disabled = false;
+      }
+    });
+
+    // Auto-search when model changes and both values are set
+    modelSelect.addEventListener('change', function() {
+      const brand = brandSelect.value;
+      const model = modelSelect.value;
+      if (brand && model) {
+        redirectToSearch(brand, model);
+      }
+    });
+
+    // Keep form submit for fallback
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const brand = brandSelect.value;
+      const model = modelSelect.value;
+      redirectToSearch(brand, model);
+    });
+  });
+</script>
+</section>
+
+{% schema %}
+{
+  "name": "Search by Device",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "radio",
+      "id": "redirect_type",
+      "label": "Redirect To",
+      "default": "collection",
+      "options": [
+        {
+          "value": "collection",
+          "label": "Collection (e.g. /collections/samsung-s23-ultra)"
+        },
+        {
+          "value": "search",
+          "label": "Search Results (e.g. /search?q=samsung+s23+ultra)"
+        }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "brand",
+      "name": "Brand",
+      "settings": [
+        {
+          "type": "text",
+          "id": "brand_name",
+          "label": "Brand Name",
+          "default": "Samsung"
+        },
+        {
+          "type": "text",
+          "id": "brand_handle",
+          "label": "Brand Handle (lowercase, no spaces)",
+          "default": "samsung"
+        },
+        {
+          "type": "textarea",
+          "id": "phone_models",
+          "label": "Phone Models (comma separated)",
+          "default": "S23 Ultra, S23, S22, Note 20, A14"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Search by Device"
+    }
+  ]
+}
+{% endschema %}

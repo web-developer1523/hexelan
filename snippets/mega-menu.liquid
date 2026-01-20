@@ -1,0 +1,310 @@
+<nav class="navbar">
+    <div class="nav-inner">
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li>
+          <a href="#">Phones ▾</a>
+          <div class="mega-menu">
+            <div class="container">
+              <div class="column">
+                
+                <!-- Apple -->
+                <div class="inner-col" data-brand="apple">
+                  <h3 class="ph-header">Apple</h3>
+                  <ul class="phones active">
+                    <li>
+                      <a href="#">iPhone 17 Series</a>
+                      <ul class="sub-phones">
+                        <li><a href="#">iPhone 17 Pro Max</a></li>
+                        <li><a href="#">iPhone 17 Pro</a></li>
+                        <li><a href="#">iPhone Air</a></li>
+                        <li><a href="#">iPhone 17</a></li>
+                      </ul>
+                    </li>
+                    <li>
+                      <a href="#">iPhone 16 Series</a>
+                      <ul class="sub-phones">
+                        <li><a href="#">iPhone 16 Pro Max</a></li>
+                        <li><a href="#">iPhone 16 Pro</a></li>
+                        <li><a href="#">iPhone 16 Plus</a></li>
+                        <li><a href="#">iPhone 16</a></li>
+                        <li><a href="#">iPhone 16e</a></li>
+                      </ul>
+                    </li>
+                    <li>
+                      <a href="#">iPhone 15 Series</a>
+                      <ul class="sub-phones">
+                        <li><a href="#">iPhone 15 Pro Max</a></li>
+                        <li><a href="#">iPhone 15 Pro</a></li>
+                        <li><a href="#">iPhone 15 Plus</a></li>
+                        <li><a href="#">iPhone 15</a></li>
+                      </ul>
+                    </li>
+                    <li>
+                      <a href="#">iPhone 14 Series</a>
+                      <ul class="sub-phones">
+                        <li><a href="#">iPhone 14 Pro Max</a></li>
+                        <li><a href="#">iPhone 14 Pro</a></li>
+                        <li><a href="#">iPhone 14 Plus</a></li>
+                        <li><a href="#">iPhone 14</a></li>
+                      </ul>
+                    </li>
+                    <li><a href="#">iPhone 13 Series</a></li>
+                    <li><a href="#">All iPhone Models</a></li>
+                  </ul>
+                </div>
+  
+                <!-- Samsung -->
+                <div class="inner-col" data-brand="samsung">
+                  <h3 class="sam-header">Samsung</h3>
+                  <ul class="samsung">
+                    <li>
+                      <a href="#">Galaxy S25 Series</a>
+                      <ul class="sub-phones">
+                        <li><a href="#">Galaxy S25 Ultra</a></li>
+                        <li><a href="#">Galaxy S25+</a></li>
+                        <li><a href="#">Galaxy S25</a></li>
+                      </ul>
+                    </li>
+                    <li>
+                      <a href="#">Galaxy Z Fold / Flip</a>
+                      <ul class="sub-phones">
+                        <li><a href="#">Galaxy Z Fold 6</a></li>
+                        <li><a href="#">Galaxy Z Flip 6</a></li>
+                      </ul>
+                    </li>
+                    <li><a href="#">All Samsung Models</a></li>
+                  </ul>
+                </div>
+  
+                <!-- Google -->
+                <div class="inner-col" data-brand="google">
+                  <h3 class="google-header">Google</h3>
+                  <ul class="google">
+                    <li>
+                      <a href="#">Pixel 10 Series</a>
+                      <ul class="sub-phones">
+                        <li><a href="#">Pixel 10 Pro</a></li>
+                        <li><a href="#">Pixel 10</a></li>
+                      </ul>
+                    </li>
+                    <li><a href="#">All Google Models</a></li>
+                  </ul>
+                </div>
+  
+                <!-- Cases -->
+                <div class="inner-col" data-brand="cases">
+                  <h3 class="cases-header">All Phone Cases</h3>
+                </div>
+  
+              </div>
+  
+              <!-- Image Block Area -->
+              <div class="images-block">
+                {% for block in section.blocks %}
+                  {% case block.type %}
+                    {% when 'image' %}
+                      <div 
+                        class="img-container" 
+                        data-brand="{{ block.settings.brand | downcase }}"
+                      >
+                        <img src="{{ block.settings.image | img_url: 'master' }}" width="200" height="200">
+                        <div class="text-block">{{ block.settings.text }}</div>
+                      </div>
+                  {% endcase %}
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+  
+  
+  <style>
+  .navbar {
+    background: #1C3B5A;
+    color: white;
+    position: relative;
+  }
+  .navbar .nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+  }
+  .navbar .nav-inner ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+  }
+  .navbar .nav-inner ul li > a {
+    display: block;
+    padding: 14px 20px;
+    color: white;
+    text-decoration: none;
+  }
+  .navbar .nav-inner ul li > a:hover {
+    background: #444;
+  }
+  
+  /* Mega Menu */
+  .mega-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: #f9f9f9;
+    color: #333;
+    padding: 39px 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    z-index: 100;
+    min-height: 443px;
+  }
+  .mega-menu .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+  }
+  .mega-menu .column {
+    position: relative;
+    width: 40%;
+  }
+  .mega-menu .column h3 {
+    margin-top: 0;
+    font-size: 16px;
+    margin-bottom: 16px;
+    cursor: pointer;
+    color: #333;
+  }
+  .mega-menu .column h3:hover {
+    color: #0078D7;
+  }
+  .mega-menu .column ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: none;
+  }
+  .mega-menu .column ul.active {
+    display: block;
+  }
+  .mega-menu .column ul li {
+    margin-bottom: 6px;
+  }
+  .mega-menu .column ul li a {
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .mega-menu .column ul li a:hover {
+    color: #0078D7;
+  }
+  
+  /* Sub-Phones */
+  .sub-phones {
+    margin-left: 15px;
+    margin-top: 5px;
+  }
+  .sub-phones li a {
+    font-size: 12px;
+    font-weight: normal;
+  }
+  
+  /* Image Block Styles */
+  .images-block {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 50%;
+    position: relative;
+  }
+  .images-block .img-container {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    margin: 10px;
+  }
+  .images-block .img-container.active {
+    display: block;
+    opacity: 1;
+  }
+  .images-block img {
+    max-width: 200px;
+    border-radius: 8px;
+  }
+  
+  /* Show Mega Menu on Hover */
+  .navbar .nav-inner ul li:hover > .mega-menu {
+    display: block;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .navbar .nav-inner {
+      flex-direction: column;
+    }
+    .navbar .nav-inner ul {
+      flex-direction: column;
+    }
+    .mega-menu {
+      position: static;
+      box-shadow: none;
+      padding: 10px;
+    }
+    .mega-menu .container {
+      flex-direction: column;
+    }
+    .images-block {
+      width: 100%;
+    }
+  }
+  </style>
+  
+  
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const headers = document.querySelectorAll('.mega-menu h3');
+    const allMenus = document.querySelectorAll('.mega-menu ul');
+    const imageContainers = document.querySelectorAll('.images-block .img-container');
+  
+    function showBrandImages(brand) {
+      imageContainers.forEach(img => {
+        if (img.dataset.brand === brand) {
+          img.classList.add('active');
+        } else {
+          img.classList.remove('active');
+        }
+      });
+    }
+  
+    headers.forEach(header => {
+      header.addEventListener('mouseenter', () => {
+        // Hide all menus
+        allMenus.forEach(menu => menu.classList.remove('active'));
+        const nextMenu = header.nextElementSibling;
+        if (nextMenu && nextMenu.tagName === 'UL') {
+          nextMenu.classList.add('active');
+        }
+  
+        // Show corresponding images
+        const brand = header.closest('.inner-col').dataset.brand;
+        showBrandImages(brand);
+      });
+    });
+  
+    // Default show Apple images
+    showBrandImages('apple');
+  });
+  </script>
+  

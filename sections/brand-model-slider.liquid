@@ -1,0 +1,226 @@
+<section class="brand-model-slider">
+  <div class="slider-container">
+    <button class="slider-btn prev-btn" aria-label="Previous">❮</button>
+    <div class="slider-wrapper">
+      {% for block in section.blocks %}
+        <div class="model-card" {{ block.shopify_attributes }}>
+          <a href="{{ block.settings.collection_link }}">
+            {% if block.settings.image != blank %}
+              <div class="model-image">
+                <img 
+                  src="{{ block.settings.image | image_url: width: 800 }}" 
+                  alt="{{ block.settings.model_name | escape }}" 
+                  loading="lazy"
+                >
+                <div class="overlay">
+                  <h3 class="model-title">{{ block.settings.model_name }}</h3>
+                </div>
+              </div>
+            {% else %}
+              <div class="model-image no-image">
+                <span>No Image</span>
+              </div>
+            {% endif %}
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+    <button class="slider-btn next-btn" aria-label="Next">❯</button>
+  </div>
+
+  <style>
+    .brand-model-slider {
+      margin: 40px auto;
+      max-width: 1600px;
+      position: relative;
+      overflow: hidden;
+      padding: 0 50px;
+    }
+
+    .slider-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .slider-wrapper {
+      display: flex;
+      gap: 20px;
+      overflow-x: scroll;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+    }
+    .slider-wrapper::-webkit-scrollbar {
+      display: none;
+    }
+
+    .model-card {
+      flex: 0 0 calc(25% - 20px); /* 4 per row on desktop */
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      transition: transform 0.3s ease;
+    }
+    .model-card:hover {
+      transform: scale(1.03);
+    }
+
+    .model-image {
+      position: relative;
+      width: 100%;
+      height: 220px;
+      overflow: hidden;
+      border-radius: 12px;
+    }
+
+    .model-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .model-card:hover img {
+      transform: scale(1.1);
+    }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.35);
+      color: #fff;
+      opacity: 1;
+      transition: background 0.3s ease;
+    }
+
+    .model-card:hover .overlay {
+      background: rgba(0, 0, 0, 0.45);
+    }
+
+    .model-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      text-align: center;
+      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.6);
+    }
+
+    .slider-btn {
+      background: #fff;
+      border: 1px solid #ccc;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+      transition: all 0.3s ease;
+      font-size: 20px;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slider-btn:hover {
+      background: #000;
+      color: #fff;
+      border-color: #000;
+    }
+
+    .prev-btn {
+      left: 10px;
+    }
+
+    .next-btn {
+      right: 10px;
+    }
+
+    @media (max-width: 1024px) {
+      .model-card {
+        flex: 0 0 calc(50% - 15px); /* 2 per view */
+      }
+      .brand-model-slider {
+        padding: 0 30px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .model-card {
+        flex: 0 0 80%;
+      }
+      .model-image {
+        height: 180px;
+      }
+    }
+  </style>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const container = document.querySelector('.brand-model-slider');
+      if (!container) return;
+
+      const wrapper = container.querySelector('.slider-wrapper');
+      const next = container.querySelector('.next-btn');
+      const prev = container.querySelector('.prev-btn');
+
+      next.addEventListener('click', () => {
+        wrapper.scrollBy({ left: wrapper.clientWidth, behavior: 'smooth' });
+      });
+
+      prev.addEventListener('click', () => {
+        wrapper.scrollBy({ left: -wrapper.clientWidth, behavior: 'smooth' });
+      });
+    });
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "Brand Model Slider",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "model",
+      "name": "Model Card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "model_name",
+          "label": "Model Name",
+          "default": "iPhone 16 Series"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Model Image"
+        },
+        {
+          "type": "url",
+          "id": "collection_link",
+          "label": "Model Collection Link"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Brand Model Slider",
+      "category": "Collection",
+      "blocks": [
+        { "type": "model" },
+        { "type": "model" },
+        { "type": "model" },
+        { "type": "model" }
+      ]
+    }
+  ]
+}
+{% endschema %}

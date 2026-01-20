@@ -1,0 +1,17 @@
+/* 
+.banner-item .img-box a {
+    padding: 0 !important;
+    height: 600px;
+}
+@media (max-width: 991px) {
+.banner-item .img-box a {
+    height: 360px;
+}
+
+}
+@media (max-width: 575px) {
+
+.banner-item .img-box a {
+    height: 283px;
+}
+} */

@@ -1,0 +1,421 @@
+{% schema %}
+{
+  "name": "Product Showcase",
+  "class": "image-grid-section",
+  "max_blocks": 12,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "Get Highlighted"
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading Alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "spacing",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Grid Spacing",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Image Border Radius",
+      "default": 12
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_hover_effect",
+      "label": "Enable Hover Effect",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_animations",
+      "label": "Enable Scroll Animations",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Section Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image_item",
+      "name": "Image Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Fallback Image"
+        },
+        {
+          "type": "text",
+          "id": "metafield_name",
+          "label": "Metafield Name",
+          "info": "Enter the metafield name (e.g., 'Top Stack img', 'Stack img 1')",
+          "placeholder": "Top Stack img"
+        },
+        {
+          "type": "url",
+          "id": "image_link",
+          "label": "Image Link (Optional)"
+        },
+        {
+          "type": "select",
+          "id": "width",
+          "label": "Block Width",
+          "options": [
+            {
+              "value": "full",
+              "label": "Full Width"
+            },
+            {
+              "value": "half",
+              "label": "Half Width"
+            },
+            {
+              "value": "third",
+              "label": "One Third"
+            },
+            {
+              "value": "quarter",
+              "label": "One Quarter"
+            }
+          ],
+          "default": "half"
+        },
+        {
+          "type": "select",
+          "id": "aspect_ratio",
+          "label": "Aspect Ratio",
+          "options": [
+            {
+              "value": "auto",
+              "label": "Auto (Image Original)"
+            },
+            {
+              "value": "square",
+              "label": "Square (1:1)"
+            },
+            {
+              "value": "portrait",
+              "label": "Portrait (3:4)"
+            },
+            {
+              "value": "landscape",
+              "label": "Landscape (4:3)"
+            },
+            {
+              "value": "wide",
+              "label": "Wide (16:9)"
+            }
+          ],
+          "default": "auto"
+        }
+      ]
+    },
+    {
+      "type": "spacer",
+      "name": "Spacer",
+      "settings": [
+        {
+          "type": "range",
+          "id": "height",
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "unit": "px",
+          "label": "Spacer Height",
+          "default": 30
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Showcase",
+      "category": "Image",
+      "blocks": [
+        {
+          "type": "image_item",
+          "settings": {
+            "width": "full"
+          }
+        },
+        {
+          "type": "image_item",
+          "settings": {
+            "width": "half"
+          }
+        },
+        {
+          "type": "image_item",
+          "settings": {
+            "width": "half"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+  .image-grid-section {
+    background-color: {{ section.settings.background_color }};
+    {% comment %} padding: 60px 0; {% endcomment %}
+  }
+  
+  .image-grid-section .image-grid-heading p {
+    color: #1c3b5a;
+    margin-bottom: 20px;
+    font-size: 36px;
+    font-weight: bold;
+  }
+  
+  .image-grid-heading {
+    text-align: {{ section.settings.heading_alignment }};
+    {% comment %} margin-bottom: 40px; {% endcomment %}
+  }
+  
+  .image-grid-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: {{ section.settings.spacing }}px;
+    justify-content: center;
+  }
+  
+  .image-grid-item {
+    border-radius: {{ section.settings.image_border_radius }}px;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .image-grid-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+  }
+  
+  {% if section.settings.enable_hover_effect %}
+  .image-grid-item:hover img {
+    transform: scale(1.05);
+  }
+  {% endif %}
+  
+  /* Width classes */
+  .width-full {
+    width: 100%;
+  }
+  
+  .width-half {
+    width: calc(49% - {{ section.settings.spacing | divided_by: 2 }}px);
+  }
+  
+  .width-third {
+    width: calc(32% - {{ section.settings.spacing | times: 0.666 }}px);
+  }
+  
+  .width-quarter {
+    width: calc(25% - {{ section.settings.spacing | times: 0.75 }}px);
+  }
+  
+  /* Aspect ratio classes */
+  .aspect-auto {
+    aspect-ratio: auto;
+    height: auto;
+  }
+  
+  .aspect-square {
+    aspect-ratio: 1 / 1;
+  }
+  
+  .aspect-portrait {
+    aspect-ratio: 3 / 4;
+  }
+  
+  .aspect-landscape {
+    aspect-ratio: 4 / 3;
+  }
+  
+  .aspect-wide {
+    aspect-ratio: 16 / 9;
+  }
+  
+  /* Spacer block */
+  .spacer-block {
+    width: 100%;
+    height: {{ block.settings.height }}px;
+  }
+  
+  /* Image link styles */
+  .image-grid-link {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  
+  /* Hide empty items */
+  .image-grid-item.hidden {
+    display: none;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .image-grid-section {
+      padding: 40px 0;
+    }
+    
+    .width-half,
+    .width-third,
+    .width-quarter {
+      width: 100%;
+    }
+    
+    .image-grid-section .image-grid-heading p {
+      font-size: 1.5rem;
+    }
+    
+    .image-grid-heading {
+      margin-bottom: 30px;
+    }
+    
+    /* Fallback for older browsers that don't support aspect-ratio */
+    .aspect-square,
+    .aspect-portrait,
+    .aspect-landscape,
+    .aspect-wide {
+      height: 300px;
+    }
+  }
+  
+  /* Animation classes */
+  {% if section.settings.enable_animations %}
+  .image-grid-item:not(.hidden) {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  
+  .image-grid-item.animate {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  {% endif %}
+</style>
+
+<div class="image-grid-section container">
+  {% if section.settings.heading != blank %}
+    <div class="image-grid-heading heading"><p>{{ section.settings.heading }}</p></div>
+  {% endif %}
+  
+  <div class="image-grid-container">
+    {% for block in section.blocks %}
+      {% case block.type %}
+        {% when 'image_item' %}
+          {%- assign image_item = block.settings -%}
+          {%- assign metafield_image = null -%}
+          
+          {% comment %} Get metafield image if metafield name is provided {% endcomment %}
+          {% if image_item.metafield_name != blank %}
+            {%- assign metafield_key = image_item.metafield_name | handleize | replace: '-', '_' -%}
+            {%- assign metafield_image = product.metafields.custom[metafield_key] -%}
+          {% endif %}
+          
+          {% comment %} Determine if we should show this block {% endcomment %}
+          {%- assign has_image = false -%}
+          {% if metafield_image != blank or image_item.image != blank %}
+            {%- assign has_image = true -%}
+          {% endif %}
+          
+          <div class="image-grid-item width-{{ image_item.width }} aspect-{{ image_item.aspect_ratio }} {% unless has_image %}hidden{% endunless %}" 
+               {{ block.shopify_attributes }}>
+            
+            {% if image_item.image_link != blank %}
+              <a href="{{ image_item.image_link }}" class="image-grid-link">
+            {% endif %}
+            
+            {% if metafield_image != blank %}
+              {% comment %} Display metafield image if available {% endcomment %}
+              {{ metafield_image | image_url: width: 1200 | image_tag:
+                loading: 'lazy',
+                alt: metafield_image.alt | default: product.title,
+                class: 'image-grid-img'
+              }}
+            {% elsif image_item.image != blank %}
+              {% comment %} Fallback to manually selected image {% endcomment %}
+              {{ image_item.image | image_url: width: 1200 | image_tag:
+                loading: 'lazy',
+                alt: image_item.image.alt,
+                class: 'image-grid-img'
+              }}
+            {% endif %}
+            
+            {% if image_item.image_link != blank %}
+              </a>
+            {% endif %}
+          </div>
+          
+        {% when 'spacer' %}
+          <div class="spacer-block" style="height: {{ block.settings.height }}px;" {{ block.shopify_attributes }}></div>
+      {% endcase %}
+    {% endfor %}
+  </div>
+</div>
+
+{% if section.settings.enable_animations %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const items = document.querySelectorAll('.image-grid-item:not(.hidden)');
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('animate');
+      }
+    });
+  }, { threshold: 0.1 });
+  
+  items.forEach(item => {
+    observer.observe(item);
+  });
+});
+</script>
+{% endif %}

@@ -1,0 +1,58 @@
+<section class="brand-banner" style="background: url('{{ section.settings.banner_image | image_url: width: 1600 }}') center/cover no-repeat;">
+  <div class="brand-banner-overlay">
+    <h1 class="brand-banner-title">{{ section.settings.banner_title }}</h1>
+  </div>
+
+  <style>
+    .brand-banner {
+      position: relative;
+      width: 100%;
+      height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-align: center;
+    }
+    .brand-banner-overlay {
+      {% comment %} background: rgba(158, 158, 158, 0.4); {% endcomment %}
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .brand-banner-title {
+      position: relative;
+      z-index: 2;
+      font-size: 48px;
+      font-weight: 700;
+      color:white;
+    }
+  </style>
+</section>
+
+{% schema %}
+{
+  "name": "Brand Banner",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "Banner Image"
+    },
+    {
+      "type": "text",
+      "id": "banner_title",
+      "label": "Banner Title",
+      "default": "Apple Collection"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Brand Banner"
+    }
+  ]
+}
+{% endschema %}

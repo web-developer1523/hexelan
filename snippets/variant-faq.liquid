@@ -1,0 +1,128 @@
+{%- assign v = variant -%}
+{%- assign faq_list = v.metafields.custom.faq_detail_variant.value -%}
+
+{% if faq_list != blank %}
+  <div class="product-faq-accordion" id="variant-faq">
+    <ul>
+      {% for faq in faq_list %}
+        <li class="faq-item">
+          <input type="checkbox" id="faq{{ forloop.index }}" class="faq-toggle">
+          <label for="faq{{ forloop.index }}" class="faq-question">
+            <span class="faq-title">{{ faq.question | metafield_tag }}</span>
+            <span class="faq-icon"></span>
+          </label>
+          <div class="faq-answer">
+            {{ faq.answer | metafield_tag }}
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% else %}
+  <div class="product-faq-accordion" id="variant-faq" hidden></div>
+{% endif %}
+
+
+{%- comment -%}
+SNIPPET: variant-faq.liquid
+Renders a container + JSON for all variant FAQs,
+then JS swaps content when the variant changes.
+{%- endcomment -%}
+
+<div class="product-faq-accordion" id="variant-faq"></div>
+
+<script>
+  // Build data map: variantId -> [ { question, answer }, ... ]
+  window.variantFaqData = window.variantFaqData || {};
+  (function() {
+    var data = {
+      {% for v in product.variants %}
+        "{{ v.id }}": [
+          {% assign faq_list = v.metafields.custom.faq_detail_variant.value %}
+          {% if faq_list != blank %}
+            {% for faq in faq_list %}
+              {
+                "question": {{ faq.question | metafield_tag | json }},
+                "answer": {{ faq.answer | metafield_tag | json }}
+              }{% unless forloop.last %},{% endunless %}
+            {% endfor %}
+          {% endif %}
+        ]{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+    };
+
+    // Merge with any existing data (if snippet rendered multiple times)
+    for (var k in data) {
+      if (Object.prototype.hasOwnProperty.call(data, k)) {
+        window.variantFaqData[k] = data[k];
+      }
+    }
+  })();
+</script>
+
+<script>
+(function() {
+  const faqContainer = document.getElementById('variant-faq');
+  if (!faqContainer || !window.variantFaqData) return;
+
+  function renderFaq(variantId) {
+    const faqs = window.variantFaqData[String(variantId)] || [];
+
+    if (!faqs.length) {
+      faqContainer.innerHTML = '';
+      faqContainer.setAttribute('hidden', 'hidden');
+      return;
+    }
+
+    faqContainer.removeAttribute('hidden');
+
+    let html = '<ul>';
+    faqs.forEach((item, index) => {
+      const i = index + 1;
+      html += `
+        <li class="faq-item">
+          <input type="checkbox" id="faq${i}" class="faq-toggle">
+          <label for="faq${i}" class="faq-question">
+            <span class="faq-title">${item.question}</span>
+            <span class="faq-icon"></span>
+          </label>
+          <div class="faq-answer">
+            ${item.answer}
+          </div>
+        </li>
+      `;
+    });
+    html += '</ul>';
+
+    faqContainer.innerHTML = html;
+  }
+
+  function getCurrentVariantId(form) {
+    const input = form && form.querySelector('input[name="id"]');
+    return input ? input.value : null;
+  }
+
+  // Find the product form (Dawn/OS2.0 compatible)
+  const productForm =
+    document.querySelector('product-form form') ||
+    document.querySelector('form[action*="/cart/add"]');
+
+  if (!productForm) return;
+
+  // Initial load
+  const initialId = getCurrentVariantId(productForm);
+  if (initialId) renderFaq(initialId);
+
+  // On option change (select, radio, etc.)
+  productForm.addEventListener('change', () => {
+    const vid = getCurrentVariantId(productForm);
+    if (vid) renderFaq(vid);
+  });
+
+  // Listen to custom variant event if theme dispatches it
+  document.addEventListener('variant:change', (e) => {
+    const vid = e.detail && e.detail.variant && e.detail.variant.id;
+    if (vid) renderFaq(vid);
+  });
+})();
+</script>

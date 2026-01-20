@@ -1,0 +1,149 @@
+<div class="halo-sidebar halo-sidebar-left halo-sidebar_menu {% if settings.mobile_menu == 'custom' %}custom-mobile-menu{% endif %}" id="navigation-mobile">
+  <div class="halo-sidebar-wrapper custom-scrollbar">
+    {%- if settings.mobile_menu == 'default' -%}
+      <div class="site-nav-mobile nav-menu-tab"></div>
+      <div class="site-nav-mobile nav" data-navigation-mobile>
+        <div class="menu-heading-mobile halo-sidebar-header">
+          <span class="title">{{ 'general.common.menu' | t }}</span>
+          <button type="button" class="halo-sidebar-close" data-menu-close-sidebar aria-label="{{ 'general.common.close' | t }}">{% render 'icon-close' %}{{ 'general.common.close' | t }}</button>
+        </div>
+        <ul class="list-menu-loading" role="list">
+          {%- for i in (1..8)-%}
+            <li class="list-menu-loading__item"></li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    {%- else -%}
+      <div class="site-nav-mobile nav-menu-tab nav-mobile-menu-tab" data-navigation-tab-mobile></div>
+      <button type="button" class="halo-sidebar-close halo-sidebar-close-custom" data-menu-close-sidebar aria-label="{{ 'general.common.close' | t }}">{% render 'icon-close' %}{{ 'general.common.close' | t }}</button>
+      <div class="site-nav-mobile nav menu-custom-mobile" data-navigation-mobile></div>
+      <ul class="list-menu-loading" role="list">
+        {%- for i in (1..9)-%}
+          <li class="list-menu-loading__item"></li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+    
+    {%- if settings.mobile_menu == 'default' -%}
+      <div class="site-nav-mobile nav-account">
+        {%- if shop.customer_accounts_enabled -%}
+          <div class="customer-links {% if customer %}customer-login{% endif %} {%- unless settings.show_wishlist -%}last-link{% endunless %}">
+            {%- if customer -%}
+              <span class="icon-wrapper">{% render 'icon-account' %}</span>
+              <a class="header__link--account customer_logount" id="customer_logout_link" href="{{ routes.account_logout_url }}">{{ 'customer.log_out' | t }}</a>
+              <span>/</span>
+              <a class="header__link--account customer_acc" href="{{ routes.account_url }}">{{ 'customer.account.my_account' | t }}</a>
+            {%- else -%}  
+              <a class="header__link--account customer_login_link" href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"><span class="icon-wrapper">{% render 'icon-account' %}</span><span class="title">{{ 'customer.sign_in' | t }}</span></a>
+              <a class="header__link--account{% unless settings.show_wishlist %} last-link{% endunless %} customer_register_link" href="{{ routes.account_register_url }}"><span class="icon-wrapper">{% render 'icon-sign-up' %}</span><span class="title">{{ 'customer.create_account' | t }}</span></a>
+            {%- endif -%}                                   
+          </div>
+        {%- endif -%}
+        {%- if settings.show_wishlist -%}
+          <a href="{% if settings.link_wishlist != blank %}{{ settings.link_wishlist }}{% else %}{{ pages['wish-list'].url }}{% endif %}" class="header__icon header__icon--wishlist link link--text focus-inset last-link">
+            <span class="icon-wrapper">{% render 'icon-wishlist' %}</span>
+            <span class="title">{{ 'wishlist.general.title' | t }}</span>
+            {% if settings.show_wishlist_number_sidebar %}(<span class="text" aria-hidden="true" data-wishlist-count></span>){% endif %}
+          </a>
+        {%- endif -%}
+        <div class="wrapper-links"></div>
+      </div>
+    {%- endif -%}
+
+    <div class="site-nav-mobile nav-currency-language p-relative"></div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const sidebar = document.getElementById('navigation-mobile');
+    if (!sidebar) return;
+
+    // Disable theme's default mobile menu JS for the sidebar to avoid conflicts
+    if (window.jQuery && window.jQuery.fn && window.jQuery('body').off) {
+      const $body = window.jQuery('body');
+      $body.off('click', '.site-nav-mobile .list-menu .menu_mobile_link');
+      $body.off('click', '.site-nav-mobile .list-menu .menu_mobile_link_2');
+      $body.off('click', '.nav-title-mobile');
+    }
+
+    // Open a menu item (level-1 or level-2) with a dropdown
+    function openMenuItem(item) {
+      if (!item) return;
+
+      // Mark this item as open
+      item.classList.add('is-open');
+      item.classList.remove('is-hidden', 'd-none');
+
+      // Hide siblings at the same level
+      const list = item.parentElement;
+      if (list) {
+        list.querySelectorAll(':scope > .menu-lv-item').forEach(function(sibling) {
+          if (sibling !== item) {
+            sibling.classList.remove('is-open');
+            sibling.classList.add('is-hidden');
+            sibling.classList.remove('d-none');
+          }
+        });
+      }
+    }
+
+    // Close the current dropdown panel when clicking its back row
+    function closeFromBack(backEl) {
+      const titleItem = backEl.closest('.nav-title-mobile');
+      if (!titleItem) return;
+
+      // Find the submenu container (could be .header__submenu or .menu-lv__dropdownmenu)
+      const dropdown = titleItem.closest('.header__submenu') || titleItem.closest('.menu-lv__dropdownmenu');
+      if (!dropdown) return;
+
+      // Find the parent menu item that contains this dropdown
+      const parentItem = dropdown.closest('.menu-lv-item');
+      if (!parentItem) return;
+
+      // Close the parent item but keep it visible at its level
+      parentItem.classList.remove('is-open', 'd-none', 'is-hidden');
+
+      // Show all siblings at the same level (including the parent item itself)
+      const list = parentItem.parentElement;
+      if (list) {
+        list.querySelectorAll(':scope > .menu-lv-item').forEach(function(li) {
+          li.classList.remove('is-hidden', 'd-none');
+        });
+      }
+    }
+
+    document.addEventListener('click', function(e) {
+      if (!sidebar.contains(e.target)) return;
+
+      // Only treat clicks on the actual menu action links as toggles
+      const actionLink = e.target.closest(
+        '#navigation-mobile a.menu-lv-1__action, #navigation-mobile a.menu-lv-2__action'
+      );
+
+      if (actionLink) {
+        const item = actionLink.closest('.menu-lv-item');
+        const isEnd = actionLink.classList.contains('list-menu__item--end');
+        const hasDropdown =
+          item && (item.querySelector('.menu-lv__dropdownmenu') || item.querySelector('.header__submenu'));
+
+        // If this item has a submenu and is not an end link, toggle it instead of navigating
+        if (item && hasDropdown && !isEnd) {
+          e.preventDefault();
+          e.stopPropagation();
+          openMenuItem(item);
+          return;
+        }
+        // Otherwise let the browser navigate normally
+      }
+
+      // BACK rows (nav-title-mobile) to go up one level
+      const backRow = e.target.closest('.nav-title-mobile');
+      if (backRow) {
+        e.preventDefault();
+        e.stopPropagation();
+        closeFromBack(backRow);
+      }
+    });
+  })();
+</script>
