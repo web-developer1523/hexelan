@@ -116,6 +116,22 @@
     document.addEventListener('click', function(e) {
       if (!sidebar.contains(e.target)) return;
 
+      // Treat \"Go To Apple\" (nav-all-mobile) as a back action, same as the arrow row
+      const navAll = e.target.closest('#navigation-mobile .navigation_all_mobile');
+      if (navAll) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const dropdown = navAll.closest('.header__submenu') || navAll.closest('.menu-lv__dropdownmenu');
+        if (dropdown) {
+          const titleRow = dropdown.querySelector('.nav-title-mobile');
+          if (titleRow) {
+            closeFromBack(titleRow);
+          }
+        }
+        return;
+      }
+
       // Only treat clicks on the actual menu action links as toggles
       const actionLink = e.target.closest(
         '#navigation-mobile a.menu-lv-1__action, #navigation-mobile a.menu-lv-2__action'
